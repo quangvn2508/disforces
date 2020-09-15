@@ -16,10 +16,13 @@ async def on_ready():
 
 @bot.command()
 async def add(ctx, handle):
-    codeforcesList[handle] = -1
-    await ctx.send(f'leedcode ID **{handle}** is added')
+    if handle in codeforcesList:
+        await ctx.send(f'{handle} is already added')
+    else:
+        codeforcesList[handle] = -1
+        await ctx.send(f'codeforces user **{handle}** is added')
 
-@tasks.loop(seconds=10)
+@tasks.loop(seconds=1)
 async def stalk():
     channel = bot.get_channel(754253458630246493)
     for handle, currentTime in codeforcesList.items():
